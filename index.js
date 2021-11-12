@@ -49,6 +49,45 @@ client.connect(err => {
         res.send(result[0]);
     })
 
+    //Confirm Booking
+    app.post('/confirmBooking', async (req, res) => {
+        const result = await bookingsCollection.insertOne(req.body);
+        // console.log(result);
+        res.send(result);
+    })
+
+    //my Booked order
+    app.get('/myBookings/:email', async (req, res) => {
+        // console.log(req.params.email);
+        const result = await bookingsCollection.find({ email: req.params.email }).toArray();
+        console.log(result);
+        res.send(result);
+    })
+
+    // delete package from booked
+    app.delete('/deleteBooking/:id', async (req, res) => {
+        const result = await bookingsCollection.deleteOne({
+            _id: ObjectId(req.params.id),
+        });
+        // console.log(result);
+        res.send(result);
+    })
+
+    //get all services for admin
+    app.get('/packages', async (req, res) => {
+        const result = await packagesCollection.find({}).toArray();
+        res.send(result);
+    })
+
+    // delete any package by admin
+    app.delete('/deletePackage/:id', async (req, res) => {
+        const result = await packagesCollection.deleteOne({
+            _id: ObjectId(req.params.id),
+        });
+        // console.log(result);
+        res.send(result);
+    })
+
 
 });
 
