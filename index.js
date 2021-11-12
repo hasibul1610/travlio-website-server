@@ -88,6 +88,27 @@ client.connect(err => {
         res.send(result);
     })
 
+    //All Booking for admin to set the pending status to approved
+    app.get('/allBookings', async (req, res) => {
+        const result = await bookingsCollection.find({}).toArray();
+        res.send(result);
+    })
+
+    //Updating the status
+    app.put('/updateStatus/:id', (req, res) => {
+        const id = req.params.id;
+        const updatedStatus = req.body.status;
+        const filter = { _id: ObjectId(id) }
+        // console.log(updatedStatus);
+        const result = bookingsCollection.updateOne(filter, {
+            $set: { status: updatedStatus }
+        })
+            .then(result => {
+                // console.log(result);
+                res.send(result);
+            })
+    })
+
 
 });
 
