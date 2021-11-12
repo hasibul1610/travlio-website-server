@@ -33,6 +33,22 @@ client.connect(err => {
         res.send(result);
     })
 
+    //get all packages to display 
+    app.get('/allPackages', async (req, res) => {
+        const result = await packagesCollection.find({}).toArray();
+        res.send(result);
+    })
+
+    //get single product
+    app.get('/singlePackage/:id', async (req, res) => {
+        // console.log(req.params.id);
+        const result = await packagesCollection.
+            find({ _id: ObjectId(req.params.id) })
+            .toArray();
+        // console.log(result);
+        res.send(result[0]);
+    })
+
 
 });
 
